@@ -20,30 +20,35 @@ def initializeDijkstras(grid, startX, startY, finishX, finishY):
     for i,row in enumerate(grid):
         for j,column in enumerate(row):
 
+            node = grid[i][j]
+
             # Add the index of the node node to the nodesToVisit list
             # The index is separated by a comma
-            nodesToVisit.append(grid[i][j])
+            nodesToVisit.append(node)
 
             # If the start node, set distance to 0
             if i == startX and j == startY:
-                grid[i][j].distance = 0
-                grid[i][j].isStart = True
-                grid[i][j].prevNode = grid[i][j] # Start node has a prevNode of itself
-                grid[i][j].widget['bg'] = 'green'
+                node.distance = 0
+                node.isStart = True
+                node.prevNode = node # Start node has a prevNode of itself
+                node.widget['bg'] = 'green'
             
             # If its the finish Node, set the isFinish field to true
             elif i == finishX and j == finishY:
-                grid[i][j].distance = bigNumber
-                grid[i][j].isFinish = True
-                grid[i][j].prevNode = None
-                grid[i][j].widget['bg'] = 'brown'
+                node.distance = bigNumber
+                node.isFinish = True
+                node.prevNode = None
+                node.widget['bg'] = 'brown'
             
             else:
                 # Distance for non-start nodes begins at the max value
-                grid[i][j].distance = bigNumber
-                grid[i][j].prevNode = None
+                node.distance = bigNumber
+                node.prevNode = None
                 #add check for passable terrain
-            
+                if node.isPassable:
+                    node.widget['bg'] = 'grey'
+                else:
+                    node.widget['bg'] = 'black'            
 
 # Actual method for the dijkstras algorithm, to be done recursively 
 def dijkstrasRecursion(grid, root):
